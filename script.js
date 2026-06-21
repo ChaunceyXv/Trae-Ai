@@ -48,6 +48,8 @@
   let dragStartRect = null;
   let dragCurrentTargetIndex = -1;
   let dragCardRects = [];
+  let dragGridRect = null;
+  let dragCanceled = false;
   const DRAG_THRESHOLD = 6;
 
   // 长按状态
@@ -148,10 +150,12 @@
 
   function clearDragState() {
     dragging = false;
+    dragCanceled = false;
     dragStartIndex = -1;
     dragOverIndex = -1;
     dragCurrentTargetIndex = -1;
     dragStartRect = null;
+    dragGridRect = null;
     const recordedRects = dragCardRects;
     dragCardRects = [];
     (recordedRects.length ? recordedRects : document.querySelectorAll(".shortcut-item")).forEach((item) => {
@@ -208,6 +212,7 @@
         dragStartY = ev.clientY;
         dragStartIndex = index;
         dragging = false;
+        dragCanceled = false;
         longPressTriggered = false;
         dragStartRect = a.getBoundingClientRect();
         dragCurrentTargetIndex = -1;
@@ -219,6 +224,10 @@
           const idx = parseInt(el.dataset.index);
           dragCardRects[idx] = { el, rect: el.getBoundingClientRect() };
         });
+
+        // 记录快捷方式卡片的边界
+        const shortcutsCard = document.getElementById("shortcutsGrid").closest(".shortcuts-card");
+        dragGridRect = shortcutsCard ? shortcutsCard.getBoundingClientRect() : null;
 
         a.classList.add("pressed");
         a.setPointerCapture(ev.pointerId);
@@ -257,51 +266,80 @@
         }
 
         if (dragging) {
-          // 1. 跟手跟随
-          a.style.transform = `translate(${dx}px, ${dy}px) scale(1.05)`;
-
-          // 2. 通过原始记录的 rects 判断指针落在哪个卡片上（稳定，不闪烁）
-          let targetIndex = -1;
-          for (let i = 0; i < dragCardRects.length; i++) {
-            const item = dragCardRects[i];
-            if (!item || item.el === a) continue;
-            const r = item.rect;
-            if (
-              ev.clientX >= r.left &&
-              ev.clientX <= r.right &&
-              ev.clientY >= r.top &&
-              ev.clientY <= r.bottom
-            ) {
-              targetIndex = i;
-              break;
-            }
+          // 检查是否越界快捷方式卡片
+          let outOfGrid = false;
+          if (dragGridRect) {
+            outOfGrid =
+              ev.clientX < dragGridRect.left ||
+              ev.clientX > dragGridRect.right ||
+              ev.clientY < dragGridRect.top ||
+              ev.clientY > dragGridRect.bottom;
           }
 
-          // 3. 目标变化时：旧目标回归原位，新目标滑到被拖卡片的原始位置
-          if (targetIndex !== dragCurrentTargetIndex) {
-            // 旧目标回归原位
+          // 越界则取消：动画弹回原位，后续不再跟随手
+          if (outOfGrid && !dragCanceled) {
+            dragCanceled = true;
+            a.style.transition = "transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)";
+            a.style.transform = "";
+            // 目标卡片也回原位
             if (dragCurrentTargetIndex >= 0 && dragCardRects[dragCurrentTargetIndex]) {
-              const oldTarget = dragCardRects[dragCurrentTargetIndex].el;
-              oldTarget.style.transition = "transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)";
-              oldTarget.style.transform = "";
-              oldTarget.classList.remove("drag-target");
+              const t = dragCardRects[dragCurrentTargetIndex].el;
+              t.style.transition = "transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)";
+              t.style.transform = "";
+              t.classList.remove("drag-target");
+            }
+            dragCurrentTargetIndex = -1;
+            dragOverIndex = dragStartIndex;
+          }
+
+          // 取消后不再跟随手
+          if (!dragCanceled) {
+            // 1. 跟手跟随
+            a.style.transform = `translate(${dx}px, ${dy}px) scale(1.05)`;
+
+            // 2. 通过原始记录的 rects 判断指针落在哪个卡片上（稳定，不闪烁）
+            let targetIndex = -1;
+            for (let i = 0; i < dragCardRects.length; i++) {
+              const item = dragCardRects[i];
+              if (!item || item.el === a) continue;
+              const r = item.rect;
+              if (
+                ev.clientX >= r.left &&
+                ev.clientX <= r.right &&
+                ev.clientY >= r.top &&
+                ev.clientY <= r.bottom
+              ) {
+                targetIndex = i;
+                break;
+              }
             }
 
-            // 新目标滑到被拖卡片原始位置
-            if (targetIndex >= 0 && dragCardRects[targetIndex]) {
-              const newTarget = dragCardRects[targetIndex].el;
-              const offsetX = dragStartRect.left - dragCardRects[targetIndex].rect.left;
-              const offsetY = dragStartRect.top - dragCardRects[targetIndex].rect.top;
-              newTarget.style.transition = "transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)";
-              newTarget.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(0.95)`;
-              newTarget.classList.add("drag-target");
-              dragOverIndex = targetIndex;
+            // 3. 目标变化时：旧目标回归原位，新目标滑到被拖卡片的原始位置
+            if (targetIndex !== dragCurrentTargetIndex) {
+              // 旧目标回归原位
+              if (dragCurrentTargetIndex >= 0 && dragCardRects[dragCurrentTargetIndex]) {
+                const oldTarget = dragCardRects[dragCurrentTargetIndex].el;
+                oldTarget.style.transition = "transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)";
+                oldTarget.style.transform = "";
+                oldTarget.classList.remove("drag-target");
+              }
+
+              // 新目标滑到被拖卡片原始位置
+              if (targetIndex >= 0 && dragCardRects[targetIndex]) {
+                const newTarget = dragCardRects[targetIndex].el;
+                const offsetX = dragStartRect.left - dragCardRects[targetIndex].rect.left;
+                const offsetY = dragStartRect.top - dragCardRects[targetIndex].rect.top;
+                newTarget.style.transition = "transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)";
+                newTarget.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(0.95)`;
+                newTarget.classList.add("drag-target");
+                dragOverIndex = targetIndex;
+              }
+              // 当指针不在任何卡片上时，dragOverIndex 重置为起始索引（不交换）
+              if (targetIndex < 0) {
+                dragOverIndex = dragStartIndex;
+              }
+              dragCurrentTargetIndex = targetIndex;
             }
-            // 关键修复：当指针不在任何卡片上时，dragOverIndex 重置为起始索引（不交换）
-            if (targetIndex < 0) {
-              dragOverIndex = dragStartIndex;
-            }
-            dragCurrentTargetIndex = targetIndex;
           }
         }
       });
