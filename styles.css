@@ -56,7 +56,7 @@ body {
   min-height: 100vh;
   background: var(--bg-gradient);
   color: var(--text-primary);
-  padding: 40px 20px;
+  padding: 24px 16px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -66,10 +66,10 @@ body {
 
 .container {
   width: 100%;
-  max-width: 960px;
+  max-width: 520px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
 .card,
@@ -81,28 +81,28 @@ body {
   box-shadow: var(--card-shadow);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  padding: 32px;
-  transition: all 0.3s ease;
+  padding: 20px;
   position: relative;
 }
 
 .hero-card {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 40px;
+  gap: 16px;
+  padding: 24px 20px;
 }
 
 .time-section {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  align-items: center;
 }
 
 .time {
-  font-size: 56px;
+  font-size: 44px;
   font-weight: 200;
   letter-spacing: 2px;
   color: var(--text-primary);
@@ -116,14 +116,14 @@ body {
 }
 
 .greeting {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 300;
   color: var(--text-secondary);
-  text-align: right;
+  text-align: center;
 }
 
 .search-card {
-  padding: 28px 32px;
+  padding: 20px;
   z-index: 2;
 }
 
@@ -147,10 +147,6 @@ body {
     7px 9px 20px rgba(100, 120, 150, 0.25);
 }
 
-.engine-logo:hover {
-  transform: translateY(-2px) scale(1.02);
-}
-
 .search-box {
   display: flex;
   align-items: center;
@@ -158,12 +154,6 @@ body {
   border: 1px solid var(--card-border);
   border-radius: var(--radius-sm);
   padding: 4px 4px 4px 6px;
-  transition: all 0.2s ease;
-}
-
-.search-box:focus-within {
-  border-color: var(--brand-color);
-  box-shadow: 0 0 0 3px var(--brand-color-ring);
 }
 
 .engine-select {
@@ -180,18 +170,11 @@ body {
   gap: 4px;
   background: transparent;
   border: none;
-  outline: none;
-  cursor: pointer;
   padding: 8px 6px 8px 4px;
   border-radius: 8px;
   color: var(--text-secondary);
   font-family: inherit;
-  transition: background 0.2s ease, color 0.2s ease;
-}
-
-.engine-trigger:hover {
-  background-color: var(--brand-color-soft);
-  color: var(--text-primary);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .engine-trigger[aria-expanded="true"] {
@@ -259,14 +242,8 @@ body {
   border-radius: 8px;
   font-size: 14px;
   color: var(--text-primary);
-  cursor: pointer;
-  transition: background 0.15s ease;
   white-space: nowrap;
   user-select: none;
-}
-
-.engine-menu li:hover {
-  background-color: rgba(143, 164, 197, 0.12);
 }
 
 .engine-menu li.active {
@@ -288,7 +265,6 @@ body {
 .search-input {
   flex: 1;
   border: none;
-  outline: none;
   background: transparent;
   font-size: 16px;
   color: var(--text-primary);
@@ -308,17 +284,11 @@ body {
   border: none;
   border-radius: 10px;
   padding: 10px 14px;
-  cursor: pointer;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
-}
-
-.search-btn:hover {
-  background: var(--brand-color-hover);
-  transform: translateY(-1px);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .shortcuts-card {
@@ -335,8 +305,8 @@ body {
 
 .shortcuts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 12px;
 }
 
 .shortcut-item {
@@ -348,17 +318,10 @@ body {
   background: var(--input-bg);
   border: 1px solid var(--card-border);
   border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: all 0.2s ease;
   text-decoration: none;
   color: inherit;
   gap: 10px;
-}
-
-.shortcut-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(180, 150, 120, 0.15);
-  border-color: var(--accent);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .shortcut-icon {
@@ -381,7 +344,7 @@ body {
 }
 
 .footer-card {
-  padding: 24px 32px;
+  padding: 20px;
   text-align: center;
 }
 
@@ -390,36 +353,4 @@ body {
   color: var(--text-secondary);
   font-style: italic;
   line-height: 1.6;
-}
-
-@media (max-width: 640px) {
-  body {
-    padding: 24px 16px;
-  }
-
-  .hero-card {
-    flex-direction: column;
-    text-align: center;
-    padding: 28px 20px;
-  }
-
-  .greeting {
-    text-align: center;
-  }
-
-  .time {
-    font-size: 44px;
-  }
-
-  .card,
-  .search-card,
-  .shortcuts-card,
-  .footer-card {
-    padding: 20px;
-  }
-
-  .shortcuts-grid {
-    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-    gap: 12px;
-  }
 }
