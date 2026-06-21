@@ -152,6 +152,7 @@
     const engine = ENGINE_LIST.find((e) => e.id === currentEngine);
     const iconEl = document.getElementById("engineIcon");
     iconEl.textContent = engine.icon;
+    document.getElementById("engineLogo").textContent = engine.name;
     applyBrandColor(engine.color);
   }
 

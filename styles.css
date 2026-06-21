@@ -127,6 +127,18 @@ body {
   z-index: 2;
 }
 
+.engine-logo {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--brand-color);
+  text-align: center;
+  margin-bottom: 16px;
+  line-height: 1;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
 .search-box {
   display: flex;
   align-items: center;
