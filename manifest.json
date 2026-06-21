@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Milky New Tab",
+  "version": "1.0.0",
+  "description": "一个采用乳白色卡片风格的浏览器新标签页插件",
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "Milky New Tab",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  }
+}
