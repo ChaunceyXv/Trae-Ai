@@ -1,19 +1,19 @@
 :root {
-  --bg-gradient: linear-gradient(135deg, #fff5e6 0%, #fff8f0 50%, #fffbeb 100%);
-  --card-bg: rgba(255, 252, 245, 0.85);
-  --card-border: rgba(245, 230, 210, 0.6);
-  --card-shadow: 0 8px 32px rgba(180, 150, 120, 0.15),
-                 0 2px 8px rgba(180, 150, 120, 0.08),
-                 inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  --card-hover-shadow: 0 12px 40px rgba(180, 150, 120, 0.25),
-                       0 4px 12px rgba(180, 150, 120, 0.12),
-                       inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  --text-primary: #4a3c2e;
-  --text-secondary: #8a7a66;
-  --text-muted: #b5a896;
-  --accent: #d4a574;
-  --accent-hover: #c99560;
-  --input-bg: rgba(255, 255, 255, 0.7);
+  --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #f8f9fc 50%, #fcfcfd 100%);
+  --card-bg: rgba(255, 255, 255, 0.85);
+  --card-border: rgba(200, 210, 225, 0.45);
+  --card-shadow: 0 8px 32px rgba(100, 120, 150, 0.12),
+                 0 2px 8px rgba(100, 120, 150, 0.06),
+                 inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  --card-hover-shadow: 0 12px 40px rgba(100, 120, 150, 0.18),
+                       0 4px 12px rgba(100, 120, 150, 0.1),
+                       inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  --text-primary: #3a4252;
+  --text-secondary: #7a8699;
+  --text-muted: #b4bed0;
+  --accent: #8fa4c5;
+  --accent-hover: #7a92b8;
+  --input-bg: rgba(255, 255, 255, 0.75);
   --radius: 18px;
   --radius-sm: 12px;
 }
