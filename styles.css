@@ -1,25 +1,23 @@
 :root {
-  --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #f8f9fc 50%, #fcfcfd 100%);
-  --card-bg: rgba(255, 255, 255, 0.85);
-  --card-border: rgba(200, 210, 225, 0.45);
-  --card-shadow: 0 8px 32px rgba(100, 120, 150, 0.12),
-                 0 2px 8px rgba(100, 120, 150, 0.06),
-                 inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  --card-hover-shadow: 0 12px 40px rgba(100, 120, 150, 0.18),
-                       0 4px 12px rgba(100, 120, 150, 0.1),
-                       inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  --text-primary: #3a4252;
+  --bg-gradient: linear-gradient(135deg, #f0f2f5 0%, #eef1f5 50%, #f0f3f7 100%);
+  --card-bg: #ffffff;
+  --card-border: transparent;
+  --card-shadow: 0 10px 40px rgba(100, 120, 140, 0.12),
+                 0 2px 8px rgba(100, 120, 140, 0.06);
+  --card-hover-shadow: 0 14px 48px rgba(100, 120, 140, 0.18),
+                       0 4px 12px rgba(100, 120, 140, 0.1);
+  --text-primary: #2c3440;
   --text-secondary: #7a8699;
   --text-muted: #b4bed0;
   --accent: #8fa4c5;
   --accent-hover: #7a92b8;
-  --input-bg: rgba(255, 255, 255, 0.75);
-  --radius: 18px;
-  --radius-sm: 12px;
-  --brand-color: #4285f4;
-  --brand-color-hover: #3367d6;
-  --brand-color-soft: rgba(66, 133, 244, 0.18);
-  --brand-color-ring: rgba(66, 133, 244, 0.14);
+  --input-bg: #f5f7fa;
+  --radius: 24px;
+  --radius-sm: 14px;
+  --brand-color: #00809d;
+  --brand-color-hover: #006a83;
+  --brand-color-soft: rgba(0, 128, 157, 0.12);
+  --brand-color-ring: rgba(0, 128, 157, 0.18);
 }
 
 * {
@@ -129,7 +127,7 @@ body {
 
 .engine-logo {
   font-size: 40px;
-  font-weight: 800;
+  font-weight: 900;
   letter-spacing: 1px;
   color: var(--brand-color);
   text-align: center;
@@ -138,13 +136,10 @@ body {
   user-select: none;
   transition: color 0.2s ease, text-shadow 0.2s ease;
   text-shadow:
-    1px 1px 0 rgba(255, 255, 255, 0.7),
-    -1px -1px 0 rgba(255, 255, 255, 0.3),
-    2px 2px 0 color-mix(in srgb, var(--brand-color) 55%, black),
-    3px 3px 0 color-mix(in srgb, var(--brand-color) 45%, black),
-    4px 4px 0 color-mix(in srgb, var(--brand-color) 35%, black),
-    5px 5px 0 color-mix(in srgb, var(--brand-color) 25%, black),
-    7px 9px 20px rgba(100, 120, 150, 0.25);
+    1px 1px 0 rgba(255, 255, 255, 0.9),
+    2px 3px 0 rgba(255, 255, 255, 0.85),
+    3px 5px 0 #e8eaec,
+    4px 7px 14px rgba(80, 100, 120, 0.25);
 }
 
 .engine-logo:hover {
@@ -155,7 +150,7 @@ body {
   display: flex;
   align-items: center;
   background: var(--input-bg);
-  border: 1px solid var(--card-border);
+  border: 1px solid rgba(200, 210, 225, 0.4);
   border-radius: var(--radius-sm);
   padding: 4px 4px 4px 6px;
   transition: all 0.2s ease;
@@ -170,8 +165,8 @@ body {
   position: relative;
   display: flex;
   align-items: center;
-  padding: 0 4px 0 6px;
-  border-right: 1px solid var(--card-border);
+  padding: 0 8px 0 6px;
+  border-right: 1px solid rgba(200, 210, 225, 0.4);
 }
 
 .engine-trigger {
@@ -232,7 +227,7 @@ body {
   padding: 6px;
   margin: 0;
   background: white;
-  border: 1px solid var(--card-border);
+  border: 1px solid rgba(200, 210, 225, 0.35);
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(100, 120, 150, 0.18),
               0 2px 6px rgba(100, 120, 150, 0.08);
@@ -353,8 +348,8 @@ body {
   align-items: center;
   justify-content: center;
   padding: 20px 12px;
-  background: var(--input-bg);
-  border: 1px solid var(--card-border);
+  background: #ffffff;
+  border: 1px solid rgba(200, 210, 225, 0.3);
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
