@@ -1,4 +1,7 @@
 (function () {
+  const STORAGE_KEY = "milky_shortcuts";
+  const LONG_PRESS_DURATION = 500;
+
   const DEFAULT_SHORTCUTS = [
     { name: "Google", url: "https://www.google.com", color: "#4285f4", letter: "G" },
     { name: "YouTube", url: "https://www.youtube.com", color: "#ff0000", letter: "Y" },
@@ -34,6 +37,10 @@
   }, {});
 
   let currentEngine = "google";
+  let editMode = false;
+  let dragSrcIndex = null;
+  let longPressTimer = null;
+  let shortcuts = JSON.parse(localStorage.getItem(STORAGE_KEY)) || JSON.parse(JSON.stringify(DEFAULT_SHORTCUTS));
 
   function hexToRgba(hex, alpha) {
     const clean = hex.replace("#", "");
@@ -99,20 +106,142 @@
     document.getElementById("greeting").textContent = greeting;
   }
 
+  function saveShortcuts() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(shortcuts));
+  }
+
+  function deleteShortcut(index) {
+    shortcuts.splice(index, 1);
+    saveShortcuts();
+    renderShortcuts();
+  }
+
+  function toggleEditMode(on) {
+    editMode = on;
+    const grid = document.getElementById("shortcutsGrid");
+    if (on) {
+      grid.classList.add("edit-mode");
+    } else {
+      grid.classList.remove("edit-mode");
+    }
+  }
+
   function renderShortcuts() {
     const grid = document.getElementById("shortcutsGrid");
     grid.innerHTML = "";
-    DEFAULT_SHORTCUTS.forEach((item) => {
+    shortcuts.forEach((item, index) => {
       const a = document.createElement("a");
       a.className = "shortcut-item";
       a.href = item.url;
       a.title = item.name;
+      a.draggable = true;
+      a.dataset.index = index;
       a.innerHTML = `
+        <span class="shortcut-delete" data-delete="${index}" title="删除">×</span>
         <div class="shortcut-icon" style="background:${item.color}">${item.letter}</div>
         <div class="shortcut-name">${item.name}</div>
       `;
+
+      // Delete button
+      a.querySelector(".shortcut-delete").addEventListener("click", (ev) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        deleteShortcut(index);
+      });
+
+      // Prevent navigation in edit mode
+      if (editMode) {
+        a.addEventListener("click", (ev) => ev.preventDefault());
+      }
+
+      // Long press to enter edit mode
+      a.addEventListener("touchstart", (ev) => {
+        longPressTimer = setTimeout(() => {
+          toggleEditMode(true);
+        }, LONG_PRESS_DURATION);
+      }, { passive: true });
+
+      a.addEventListener("touchend", () => {
+        if (longPressTimer) {
+          clearTimeout(longPressTimer);
+          longPressTimer = null;
+        }
+      });
+
+      a.addEventListener("touchmove", () => {
+        if (longPressTimer) {
+          clearTimeout(longPressTimer);
+          longPressTimer = null;
+        }
+      });
+
+      // Mouse long press (for desktop testing)
+      a.addEventListener("mousedown", () => {
+        longPressTimer = setTimeout(() => {
+          toggleEditMode(true);
+        }, LONG_PRESS_DURATION);
+      });
+
+      a.addEventListener("mouseup", () => {
+        if (longPressTimer) {
+          clearTimeout(longPressTimer);
+          longPressTimer = null;
+        }
+      });
+
+      a.addEventListener("mouseleave", () => {
+        if (longPressTimer) {
+          clearTimeout(longPressTimer);
+          longPressTimer = null;
+        }
+      });
+
+      // Drag events
+      a.addEventListener("dragstart", (ev) => {
+        dragSrcIndex = index;
+        a.classList.add("dragging");
+        ev.dataTransfer.effectAllowed = "move";
+        ev.dataTransfer.setData("text/plain", index);
+      });
+
+      a.addEventListener("dragend", () => {
+        a.classList.remove("dragging");
+        dragSrcIndex = null;
+        document.querySelectorAll(".shortcut-item").forEach((el) => {
+          el.classList.remove("drag-over");
+        });
+      });
+
+      a.addEventListener("dragover", (ev) => {
+        ev.preventDefault();
+        ev.dataTransfer.dropEffect = "move";
+        if (dragSrcIndex !== null && parseInt(a.dataset.index) !== dragSrcIndex) {
+          a.classList.add("drag-over");
+        }
+      });
+
+      a.addEventListener("dragleave", () => {
+        a.classList.remove("drag-over");
+      });
+
+      a.addEventListener("drop", (ev) => {
+        ev.preventDefault();
+        a.classList.remove("drag-over");
+        const fromIndex = dragSrcIndex;
+        const toIndex = parseInt(a.dataset.index);
+        if (fromIndex !== null && fromIndex !== toIndex) {
+          const [moved] = shortcuts.splice(fromIndex, 1);
+          shortcuts.splice(toIndex, 0, moved);
+          saveShortcuts();
+          renderShortcuts();
+          if (editMode) toggleEditMode(true);
+        }
+      });
+
       grid.appendChild(a);
     });
+
+    if (editMode) toggleEditMode(true);
   }
 
   function handleSearch(e) {
@@ -219,6 +348,13 @@
       if (now - lastTouch <= 300) ev.preventDefault();
       lastTouch = now;
     }, { passive: false });
+
+    // Click outside shortcuts to exit edit mode
+    document.getElementById("shortcutsGrid").addEventListener("click", (ev) => {
+      if (editMode && !ev.target.closest(".shortcut-item")) {
+        toggleEditMode(false);
+      }
+    });
   }
 
   document.addEventListener("DOMContentLoaded", init);
