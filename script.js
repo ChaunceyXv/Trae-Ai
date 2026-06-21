@@ -35,6 +35,41 @@
 
   let currentEngine = "google";
 
+  function hexToRgba(hex, alpha) {
+    const clean = hex.replace("#", "");
+    const full = clean.length === 3
+      ? clean.split("").map((c) => c + c).join("")
+      : clean;
+    const num = parseInt(full, 16);
+    const r = (num >> 16) & 255;
+    const g = (num >> 8) & 255;
+    const b = num & 255;
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+
+  function darken(hex, amount) {
+    const clean = hex.replace("#", "");
+    const full = clean.length === 3
+      ? clean.split("").map((c) => c + c).join("")
+      : clean;
+    const num = parseInt(full, 16);
+    let r = (num >> 16) & 255;
+    let g = (num >> 8) & 255;
+    let b = num & 255;
+    r = Math.max(0, Math.round(r - r * amount));
+    g = Math.max(0, Math.round(g - g * amount));
+    b = Math.max(0, Math.round(b - b * amount));
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
+  function applyBrandColor(hex) {
+    const root = document.documentElement;
+    root.style.setProperty("--brand-color", hex);
+    root.style.setProperty("--brand-color-hover", darken(hex, 0.22));
+    root.style.setProperty("--brand-color-soft", hexToRgba(hex, 0.14));
+    root.style.setProperty("--brand-color-ring", hexToRgba(hex, 0.18));
+  }
+
   function pad(n) {
     return n < 10 ? "0" + n : n;
   }
@@ -117,7 +152,7 @@
     const engine = ENGINE_LIST.find((e) => e.id === currentEngine);
     const iconEl = document.getElementById("engineIcon");
     iconEl.textContent = engine.icon;
-    iconEl.style.background = engine.color;
+    applyBrandColor(engine.color);
   }
 
   function selectEngine(id) {
