@@ -57,6 +57,7 @@ body {
   -webkit-backdrop-filter: blur(12px);
   padding: 32px;
   transition: all 0.3s ease;
+  position: relative;
 }
 
 .hero-card {
@@ -97,6 +98,7 @@ body {
 
 .search-card {
   padding: 28px 32px;
+  z-index: 2;
 }
 
 .search-box {
