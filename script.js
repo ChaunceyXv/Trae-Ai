@@ -64,6 +64,21 @@
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   }
 
+  function darken(hex, amount) {
+    const clean = hex.replace("#", "");
+    const full = clean.length === 3
+      ? clean.split("").map((c) => c + c).join("")
+      : clean;
+    const num = parseInt(full, 16);
+    let r = Math.max(0, (num >> 16) & 255);
+    let g = Math.max(0, (num >> 8) & 255);
+    let b = Math.max(0, num & 255);
+    r = Math.max(0, Math.round(r - r * amount));
+    g = Math.max(0, Math.round(g - g * amount));
+    b = Math.max(0, Math.round(b - b * amount));
+    return "#" + [r, g, b].map((c) => c.toString(16).padStart(2, "0")).join("");
+  }
+
   function applyBrandColor(hex) {
     const root = document.documentElement;
     root.style.setProperty("--brand-color", hex);
