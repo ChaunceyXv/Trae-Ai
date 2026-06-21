@@ -25,9 +25,9 @@
   ];
 
   const ENGINE_LIST = [
-    { id: "google", name: "Google", icon: "G", color: "#4285f4", url: "https://www.google.com/search?q=" },
     { id: "bing", name: "Bing", icon: "B", color: "#00809d", url: "https://www.bing.com/search?q=" },
-    { id: "baidu", name: "百度", icon: "百", color: "#e60012", url: "https://www.baidu.com/s?wd=" },
+    { id: "baidu", name: "Baidu", icon: "B", color: "#4285f4", url: "https://www.baidu.com/s?wd=" },
+    { id: "google", name: "Google", icon: "G", color: "#e60012", url: "https://www.google.com/search?q=" },
     { id: "duckduckgo", name: "DuckDuckGo", icon: "D", color: "#de5833", url: "https://duckduckgo.com/?q=" },
   ];
 
@@ -36,7 +36,7 @@
     return acc;
   }, {});
 
-  let currentEngine = "google";
+  let currentEngine = "bing";
   let editMode = false;
 
   // 拖拽状态
