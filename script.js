@@ -169,8 +169,9 @@
 
   function moveShortcut(fromIndex, toIndex) {
     if (fromIndex === toIndex || fromIndex < 0 || toIndex < 0) return;
-    const [item] = shortcuts.splice(fromIndex, 1);
-    shortcuts.splice(toIndex, 0, item);
+    const temp = shortcuts[fromIndex];
+    shortcuts[fromIndex] = shortcuts[toIndex];
+    shortcuts[toIndex] = temp;
     saveShortcuts();
   }
 
