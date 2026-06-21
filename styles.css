@@ -468,12 +468,12 @@ body {
 
 .bottom-bar {
   position: fixed;
-  bottom: var(--handle-offset, 18px);
+  bottom: var(--bar-bottom, 18px);
   left: 30%;
   width: 40%;
   padding: 2px 14px;
   box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--bar-bg, #f0f2f5);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: var(--bar-radius, 14px);
@@ -489,8 +489,10 @@ body {
   touch-action: none;
   user-select: none;
   transition: bottom 0.35s cubic-bezier(0.32, 0.72, 0, 1),
+              transform 0.35s cubic-bezier(0.32, 0.72, 0, 1),
               border-radius 0.35s cubic-bezier(0.32, 0.72, 0, 1),
-              box-shadow 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+              box-shadow 0.35s cubic-bezier(0.32, 0.72, 0, 1),
+              background 0.2s ease;
 }
 
 .bottom-bar #quote {

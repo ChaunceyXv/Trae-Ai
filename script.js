@@ -598,16 +598,20 @@
 
     function openDrawer() {
       drawer.classList.add("open");
-      bottomBar.style.setProperty("--handle-offset", "52vh");
+      bottomBar.style.setProperty("--bar-bottom", "52vh");
       bottomBar.style.setProperty("--bar-radius", "14px 14px 0 0");
       bottomBar.style.setProperty("--bar-shadow-y", "-4px");
+      bottomBar.style.setProperty("--bar-bg", "#f0f2f5");
+      bottomBar.style.transform = "translateY(-50px)";
       drawerOpen = true;
     }
     function closeDrawer() {
       drawer.classList.remove("open");
-      bottomBar.style.setProperty("--handle-offset", "18px");
+      bottomBar.style.setProperty("--bar-bottom", "18px");
       bottomBar.style.setProperty("--bar-radius", "14px");
       bottomBar.style.setProperty("--bar-shadow-y", "4px");
+      bottomBar.style.setProperty("--bar-bg", "rgba(255,255,255,0.8)");
+      bottomBar.style.transform = "translateY(0)";
       drawerOpen = false;
     }
 
