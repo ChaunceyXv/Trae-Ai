@@ -468,7 +468,7 @@ body {
 
 .bottom-bar {
   position: fixed;
-  bottom: 18px;
+  bottom: 0;
   left: 30%;
   width: 40%;
   padding: 2px 14px;
@@ -476,14 +476,15 @@ body {
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border-radius: 14px;
+  border-radius: 14px 14px 0 0;
   border: 1px solid rgba(200, 210, 225, 0.3);
-  box-shadow: 0 4px 16px rgba(100, 120, 140, 0.1);
+  border-bottom: none;
+  box-shadow: 0 -4px 16px rgba(100, 120, 140, 0.1);
   text-align: center;
   font-size: 12px;
   color: var(--text-secondary);
   font-style: italic;
-  z-index: 10;
+  z-index: 21;
   overflow: visible;
   white-space: nowrap;
   touch-action: none;
@@ -505,22 +506,6 @@ body {
 }
 
 /* ── 底部抽屉 ── */
-.drawer-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.25);
-  z-index: 19;
-  animation: fadeIn 0.2s ease;
-}
-.drawer-overlay.open {
-  display: block;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
 
 .drawer {
   position: fixed;
@@ -544,15 +529,6 @@ body {
 }
 .drawer.open {
   transform: translateY(0);
-}
-
-.drawer-handle {
-  width: 40px;
-  height: 4px;
-  background: rgba(180, 190, 210, 0.55);
-  border-radius: 2px;
-  margin: 10px auto 6px;
-  flex-shrink: 0;
 }
 
 .drawer-content {
