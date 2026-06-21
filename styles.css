@@ -175,7 +175,7 @@ body {
 .engine-menu {
   position: absolute;
   top: calc(100% + 6px);
-  left: 0;
+  left: -6px;
   min-width: 160px;
   list-style: none;
   padding: 6px;
@@ -204,7 +204,7 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 9px 12px 9px 10px;
+  padding: 9px 12px 9px 4px;
   border-radius: 8px;
   font-size: 14px;
   color: var(--text-primary);
