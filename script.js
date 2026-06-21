@@ -591,7 +591,7 @@
     // ── 底部抽屉拖拽 ──
     const drawer = document.getElementById("drawer");
     const bottomBar = document.querySelector(".bottom-bar");
-    const OPEN_THRESHOLD = 80;
+    const OPEN_THRESHOLD = 60;
     let drawerDragging = false;
     let drawerDragStartY = 0;
     let drawerOpen = false;
@@ -605,47 +605,39 @@
       drawerOpen = false;
     }
 
-    // 底部指示条 → 向上拖拽打开抽屉
+    // ── 指示条：向上拖拽打开抽屉 ──
     bottomBar.addEventListener("pointerdown", (e) => {
       drawerDragging = true;
       drawerDragStartY = e.clientY;
-      bottomBar.setPointerCapture(e.pointerId);
     });
 
-    bottomBar.addEventListener("pointermove", (e) => {
-      if (!drawerDragging) return;
-      if (drawerOpen) return;
-      const delta = drawerDragStartY - e.clientY;
-      if (delta > OPEN_THRESHOLD) {
-        drawerDragging = false;
-        openDrawer();
-        bottomBar.releasePointerCapture(e.pointerId);
-      }
-    });
-
-    bottomBar.addEventListener("pointerup", () => {
-      drawerDragging = false;
-    });
-
-    // 抽屉本身 → 向下拖拽关闭
+    // ── 抽屉：向下拖拽关闭 ──
     drawer.addEventListener("pointerdown", (e) => {
+      if (!drawerOpen) return;
       drawerDragging = true;
       drawerDragStartY = e.clientY;
-      drawer.setPointerCapture(e.pointerId);
     });
 
-    drawer.addEventListener("pointermove", (e) => {
+    document.addEventListener("pointermove", (e) => {
       if (!drawerDragging) return;
-      if (!drawerOpen) return;
-      const delta = e.clientY - drawerDragStartY;
-      if (delta > OPEN_THRESHOLD) {
-        drawerDragging = false;
-        closeDrawer();
-        drawer.releasePointerCapture(e.pointerId);
+      if (drawerOpen) {
+        // 抽屉打开时：向下拖拽关闭
+        const delta = e.clientY - drawerDragStartY;
+        if (delta > OPEN_THRESHOLD) {
+          drawerDragging = false;
+          closeDrawer();
+        }
+      } else {
+        // 抽屉关闭时：向上拖拽打开
+        const delta = drawerDragStartY - e.clientY;
+        if (delta > OPEN_THRESHOLD) {
+          drawerDragging = false;
+          openDrawer();
+        }
       }
     });
 
-    drawer.addEventListener("pointerup", () => {
+    document.addEventListener("pointerup", () => {
       drawerDragging = false;
     });
 

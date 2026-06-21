@@ -484,8 +484,10 @@ body {
   color: var(--text-secondary);
   font-style: italic;
   z-index: 10;
-  overflow: hidden;
+  overflow: visible;
   white-space: nowrap;
+  touch-action: none;
+  user-select: none;
 }
 
 .bottom-bar #quote {
