@@ -171,6 +171,18 @@
     bindEngines();
     showRandomQuote();
     document.getElementById("searchForm").addEventListener("submit", handleSearch);
+
+    document.addEventListener("contextmenu", (ev) => ev.preventDefault());
+    document.addEventListener("gesturestart", (ev) => ev.preventDefault());
+    document.addEventListener("gesturechange", (ev) => ev.preventDefault());
+    document.addEventListener("gestureend", (ev) => ev.preventDefault());
+
+    let lastTouch = 0;
+    document.addEventListener("touchend", (ev) => {
+      const now = Date.now();
+      if (now - lastTouch <= 300) ev.preventDefault();
+      lastTouch = now;
+    }, { passive: false });
   }
 
   document.addEventListener("DOMContentLoaded", init);
