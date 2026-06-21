@@ -516,14 +516,7 @@
   function showRandomQuote() {
     const el = document.getElementById("quote");
     const quote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
-    el.textContent = quote;
-    // 如果文字过长则启用滚动动画
-    el.classList.remove("quote-text");
-    void el.offsetWidth; // 强制重排以重新检测
-    if (el.scrollWidth > el.clientWidth + 4) {
-      el.classList.add("quote-text");
-      el.textContent = quote + "        " + quote;
-    }
+    el.textContent = quote + "        " + quote;
   }
 
   function init() {
